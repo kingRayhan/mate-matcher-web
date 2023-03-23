@@ -17,6 +17,13 @@ _app.get("/", (c) => {
 _app.get("/:id", zValidator("param", getPostDto), (c) => {
   const { id } = c.req.valid("param");
   const post = postService.getPost(+id);
+  if (!post) {
+    c.status(404);
+    return c.json({
+      message: "Post not found",
+    });
+  }
+
   return c.json({
     post,
   });
